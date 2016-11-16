@@ -1,0 +1,9 @@
+diff --git a/entity.info.yml b/entity.info.yml
+index 0b032e6..62892c8 100644
+--- a/entity.info.yml
++++ b/entity.info.yml
+@@ -4,3 +4,4 @@ type: module
+ core: 8.x
+ dependencies:
+   - system (>=8.1.0)
++version:  8.x-1.0-alpha3
