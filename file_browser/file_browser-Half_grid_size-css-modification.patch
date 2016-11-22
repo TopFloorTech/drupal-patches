@@ -1,0 +1,40 @@
+diff --git a/css/file_browser.view.css b/css/file_browser.view.css
+index 402f458..d70d4bf 100644
+--- a/css/file_browser.view.css
++++ b/css/file_browser.view.css
+@@ -13,7 +13,7 @@
+ @media only screen and (min-width: 320px) {
+   .grid-sizer,
+   .grid-item {
+-      width: 96%;
++      width: 46%;
+   }
+   .gutter-sizer {
+       width: 20px;
+@@ -23,7 +23,7 @@
+ @media only screen and (min-width: 768px) {
+   .grid-sizer,
+   .grid-item {
+-      width: 46%;
++      width: 23%;
+   }
+   .gutter-sizer {
+       width: 20px;
+@@ -33,7 +33,7 @@
+ @media only screen and (min-width: 992px) {
+   .grid-sizer,
+   .grid-item {
+-      width: 23%;
++      width: 11.5%;
+   }
+   .gutter-sizer {
+       width: 10px;
+@@ -44,7 +44,7 @@
+ @media only screen and (min-width: 1600px) {
+   .grid-sizer,
+   .grid-item {
+-      width: 15%;
++      width: 7.5%;
+   }
+   .gutter-sizer {
+       width: 10px;
