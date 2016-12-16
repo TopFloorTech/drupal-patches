@@ -1,0 +1,80 @@
+diff --git a/src/PathProcessorPrettyPaths.php b/src/PathProcessorPrettyPaths.php
+index 062b636..9dad74b 100644
+--- a/src/PathProcessorPrettyPaths.php
++++ b/src/PathProcessorPrettyPaths.php
+@@ -19,6 +19,7 @@ class PathProcessorPrettyPaths implements InboundPathProcessorInterface {
+    * {@inheritdoc}
+    */
+   public function processInbound($path, Request $request) {
++    $path = PrettyPathsPathFilter::getBasePath($path);
+ 
+     // TODO: check if we can do this faster, now every url requires a load of all facet sources once (its cached later though)
+     $facet_source_plugin_manager = \Drupal::service('plugin.manager.facets.facet_source');
+diff --git a/src/Plugin/facets/url_processor/FacetsPrettyPathsUrlProcessor.php b/src/Plugin/facets/url_processor/FacetsPrettyPathsUrlProcessor.php
+index f505c34..b27b9df 100644
+--- a/src/Plugin/facets/url_processor/FacetsPrettyPathsUrlProcessor.php
++++ b/src/Plugin/facets/url_processor/FacetsPrettyPathsUrlProcessor.php
+@@ -7,9 +7,11 @@
+ 
+ namespace Drupal\facets_pretty_paths\Plugin\facets\url_processor;
+ 
++use Drupal\Core\Form\FormStateInterface;
+ use Drupal\Core\Url;
+ use Drupal\facets\FacetInterface;
+ use Drupal\facets\UrlProcessor\UrlProcessorPluginBase;
++use Drupal\facets_pretty_paths\PrettyPathsPathFilter;
+ use Symfony\Component\HttpFoundation\Request;
+ 
+ /**
+@@ -29,6 +31,8 @@ class FacetsPrettyPathsUrlProcessor extends UrlProcessorPluginBase {
+    */
+   protected $active_filters = [];
+ 
++  protected $separator = '--';
++
+   /**
+    * {@inheritdoc}
+    */
+@@ -58,11 +62,11 @@ class FacetsPrettyPathsUrlProcessor extends UrlProcessorPluginBase {
+       $filter_key = $facet->getUrlAlias();
+       // If the value is active, remove the filter string from the parameters.
+       if ($result->isActive()) {
+-        $filters_current_result = str_replace('/' . $filter_key . '/' . $result->getRawValue(), '', $filters_current_result);
++        $filters_current_result = str_replace('/' . $filter_key . $this->separator . $result->getRawValue(), '', $filters_current_result);
+       }
+       // If the value is not active, add the filter string.
+       else {
+-        $filters_current_result .= '/' . $filter_key . '/' . $result->getRawValue();
++        $filters_current_result .= '/' . $filter_key . $this->separator . $result->getRawValue();
+       }
+ 
+       $url = Url::fromUri('base:' . $facet->getFacetSource()->getPath() . $filters_current_result);
+@@ -98,22 +102,17 @@ class FacetsPrettyPathsUrlProcessor extends UrlProcessorPluginBase {
+     }
+ 
+     $path = $this->request->getPathInfo();
++
+     if(strpos($path, $facet_source_path, 0)=== 0){
+       $filters = substr($path, (strlen($facet_source_path) + 1));
+       $parts = explode('/', $filters);
+-      $key = '';
++
+       foreach($parts as $index => $part){
+-        if($index%2 == 0){
+-          $key = $part;
+-        }else{
+-          if (!isset($this->active_filters[$key])) {
+-            $this->active_filters[$key] = [$part];
+-          }
+-          else {
+-            $this->active_filters[$key][] = $part;
+-          }
+-        }
++        if (strpos($part, $this->separator) !== FALSE) {
++          list($key, $value) = explode($this->separator, $part);
+ 
++          $this->active_filters[$key][] = $value;
++        }
+       }
+     }
+   }
