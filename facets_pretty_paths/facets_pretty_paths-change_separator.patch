@@ -78,3 +78,38 @@ index f505c34..b27b9df 100644
        }
      }
    }
+diff --git a/src/PrettyPathsPathFilter.php b/src/PrettyPathsPathFilter.php
+new file mode 100644
+index 0000000..ff80cd1
+--- /dev/null
++++ b/src/PrettyPathsPathFilter.php
+@@ -0,0 +1,29 @@
++<?php
++
++namespace Drupal\facets_pretty_paths;
++
++/**
++ * Attempts to filter pretty path facets from a path.
++ *
++ * @package Drupal\facets_pretty_paths
++ */
++class PrettyPathsPathFilter {
++  protected static $separator = '--';
++
++  public static function getBasePath($path) {
++    $pathArray = explode('/', ltrim($path, '/'));
++    $finalPath = $path;
++
++    while (!empty($pathArray)) {
++      $part = array_pop($pathArray);
++
++      if (strpos($part, self::$separator) === FALSE) {
++        break;
++      }
++
++      $finalPath = '/' . implode('/', $pathArray);
++    }
++
++    return $finalPath;
++  }
++}
