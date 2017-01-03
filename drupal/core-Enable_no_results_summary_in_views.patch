@@ -1,0 +1,13 @@
+diff --git a/core/modules/views/src/Plugin/views/area/Result.php b/core/modules/views/src/Plugin/views/area/Result.php
+index d8139cb..7319e4c 100644
+--- a/core/modules/views/src/Plugin/views/area/Result.php
++++ b/core/modules/views/src/Plugin/views/area/Result.php
+@@ -109,7 +109,7 @@ public function render($empty = FALSE) {
+     $replacements['@current_record_count'] = $current_record_count;
+     $replacements['@page_count'] = $page_count;
+     // Send the output.
+-    if (!empty($total)) {
++    if (!empty($total) || !empty($this->options['empty'])) {
+       $output .= Xss::filterAdmin(str_replace(array_keys($replacements), array_values($replacements), $format));
+     }
+     // Return as render array.
