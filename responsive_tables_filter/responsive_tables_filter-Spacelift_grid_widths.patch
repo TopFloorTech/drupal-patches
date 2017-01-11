@@ -1,0 +1,29 @@
+diff --git a/css/tablesaw.stackonly.css b/css/tablesaw.stackonly.css
+index f6483bb..7750573 100644
+--- a/css/tablesaw.stackonly.css
++++ b/css/tablesaw.stackonly.css
+@@ -94,7 +94,7 @@ table.tablesaw {
+   }
+ }
+ 
+-@media (max-width: 39.9375em) {
++@media (max-width: 600px) {
+   .tablesaw-stack thead td,
+   .tablesaw-stack thead th {
+     display: none;
+@@ -124,7 +124,7 @@ table.tablesaw {
+ 
+ /* Media query to show as a standard table at 560px (35em x 16px) or wider */
+ 
+-@media (min-width: 40em) {
++@media (min-width: 600px) {
+   .tablesaw-stack tr {
+     display: table-row;
+   }
+@@ -145,4 +145,4 @@ table.tablesaw {
+   .tablesaw-stack th .tablesaw-cell-label {
+     display: none !important;
+   }
+-}
+\ No newline at end of file
++}
