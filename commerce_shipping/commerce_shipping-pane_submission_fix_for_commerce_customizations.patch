@@ -1,0 +1,35 @@
+diff --git a/src/Plugin/Commerce/CheckoutPane/ShippingInformation.php b/src/Plugin/Commerce/CheckoutPane/ShippingInformation.php
+index f2649f2..fb5b7e8 100644
+--- a/src/Plugin/Commerce/CheckoutPane/ShippingInformation.php
++++ b/src/Plugin/Commerce/CheckoutPane/ShippingInformation.php
+@@ -166,7 +166,9 @@ class ShippingInformation extends CheckoutPaneBase implements ContainerFactoryPl
+    */
+   public function buildPaneForm(array $pane_form, FormStateInterface $form_state, array &$complete_form) {
+     $store = $this->order->getStore();
+-    $shipping_profile = $form_state->get('shipping_profile');
++    $shipping_profile = (isset($pane_form['shipping_profile']['#profile']))
++      ? $pane_form['shipping_profile']['#profile']
++      : $form_state->get('shipping_profile');
+     if (!$shipping_profile) {
+       $shipping_profile = $this->getShippingProfile();
+       $form_state->set('shipping_profile', $shipping_profile);
+@@ -289,6 +291,10 @@ class ShippingInformation extends CheckoutPaneBase implements ContainerFactoryPl
+   public function submitPaneForm(array &$pane_form, FormStateInterface $form_state, array &$complete_form) {
+     // Save the modified shipments.
+     $shipments = [];
++    $storage = $form_state->getStorage();
++    $profile = isset($storage['pane_' . $this->getId() . '[shipping_profile]']['profile'])
++      ? $storage['pane_' . $this->getId() . '[shipping_profile]']['profile']
++      : $pane_form['shipping_profile']['#profile'];
+     foreach (Element::children($pane_form['shipments']) as $index) {
+       /** @var \Drupal\commerce_shipping\Entity\ShipmentInterface $shipment */
+       $shipment = clone $pane_form['shipments'][$index]['#shipment'];
+@@ -296,7 +302,7 @@ class ShippingInformation extends CheckoutPaneBase implements ContainerFactoryPl
+       $form_display->removeComponent('shipping_profile');
+       $form_display->removeComponent('title');
+       $form_display->extractFormValues($shipment, $pane_form['shipments'][$index], $form_state);
+-      $shipment->setShippingProfile($pane_form['shipping_profile']['#profile']);
++      $shipment->setShippingProfile($profile);
+       $shipment->save();
+       $shipments[] = $shipment;
+     }
