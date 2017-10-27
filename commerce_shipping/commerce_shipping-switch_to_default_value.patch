@@ -1,0 +1,13 @@
+diff --git a/src/Plugin/Commerce/CheckoutPane/ShippingInformation.php b/src/Plugin/Commerce/CheckoutPane/ShippingInformation.php
+index 056d0b3..8ca55f5 100644
+--- a/src/Plugin/Commerce/CheckoutPane/ShippingInformation.php
++++ b/src/Plugin/Commerce/CheckoutPane/ShippingInformation.php
+@@ -270,7 +270,7 @@ class ShippingInformation extends CheckoutPaneBase implements ContainerFactoryPl
+       $form_state->set('recalculate_shipping', TRUE);
+       // The profile in form state needs to reflect the submitted values, since
+       // it will be passed to the packers when the form is rebuilt.
+-      $form_state->set('shipping_profile', $pane_form['shipping_profile']['#profile']);
++      $form_state->set('shipping_profile', $pane_form['shipping_profile']['#default_value']);
+     }
+ 
+     foreach ($shipment_indexes as $index) {
