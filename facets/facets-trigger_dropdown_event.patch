@@ -1,0 +1,13 @@
+diff --git a/js/dropdown-widget.js b/js/dropdown-widget.js
+index e87b929..1e45965 100644
+--- a/js/dropdown-widget.js
++++ b/js/dropdown-widget.js
+@@ -79,6 +79,8 @@
+       // Replace links with dropdown.
+       $ul.after($dropdown).remove();
+       Drupal.attachBehaviors($dropdown.parent()[0], Drupal.settings);
++
++      $(document).trigger('dropdownFacetsInitialized');
+     });
+   };
+ 
