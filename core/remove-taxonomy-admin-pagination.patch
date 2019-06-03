@@ -1,0 +1,24 @@
+diff --git a/core/modules/taxonomy/src/Form/OverviewTerms.php b/core/modules/taxonomy/src/Form/OverviewTerms.php
+index 3811ee5..1ca2035 100644
+--- a/core/modules/taxonomy/src/Form/OverviewTerms.php
++++ b/core/modules/taxonomy/src/Form/OverviewTerms.php
+@@ -169,10 +169,6 @@ public function buildForm(array $form, FormStateInterface $form_state, Vocabular
+       if ($page_entries == 1) {
+         $form['#first_tid'] = $term->id();
+       }
+-      // Keep a variable to make sure at least 2 root elements are displayed.
+-      if ($term->parents[0] == 0) {
+-        $root_entries++;
+-      }
+       $current_page[$key] = $term;
+     } while (isset($tree[++$tree_index]));
+ 
+@@ -362,8 +358,6 @@ public function buildForm(array $form, FormStateInterface $form_state, Vocabular
+         '#value' => $this->t('Reset to alphabetical'),
+       ];
+     }
+-
+-    $form['pager_pager'] = ['#type' => 'pager'];
+     return $form;
+   }
+ 
